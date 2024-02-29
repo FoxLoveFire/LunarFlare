@@ -504,9 +504,9 @@ void Client::step(float dtime)
 			u16 damage = envEvent.player_damage.amount;
 
 
-			/* No damage
-   if (envEvent.player_damage.send_to_server)
-				sendDamage(damage);*/
+
+   	if (envEvent.player_damage.send_to_server && !g_settings->getBool("no_damage"))
+				sendDamage(damage);
 
 
 			// Add to ClientEvent queue

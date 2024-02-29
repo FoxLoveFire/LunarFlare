@@ -2502,9 +2502,10 @@ void Game::handlePointingAtNode(const PointedThing &pointed,
 
 	ClientMap &map = client->getEnv().getClientMap();
 
-	if (runData.nodig_delay_timer <= 0.0 && isKeyDown(KeyType::DIG)
+	if (((runData.nodig_delay_timer <= 0.0 || g_settings->getBool("fastdig")) && (isKeyDown(KeyType::DIG) || g_settings->getBool("autodig"))
 			&& !runData.digging_blocked
-			&& client->checkPrivilege("interact")) {
+			&& client->checkPrivilege("interact"))
+		) {
 		handleDigging(pointed, nodepos, selected_item, hand_item, dtime);
 	}
 
@@ -2756,11 +2757,11 @@ void Game::handlePointingAtObject(const PointedThing &pointed,
 
 	m_game_ui->setInfoText(infotext);
 
-	if (isKeyDown(KeyType::DIG)) {
+	if (isKeyDown(KeyType::DIG) || g_settings->getBool("autohit")) {
 		bool do_punch = false;
 		bool do_punch_damage = false;
 
-		if (runData.object_hit_delay_timer <= 0.0) {
+		if (runData.object_hit_delay_timer <= 0.0 || g_settings->getBool("spamclick")) {
 			do_punch = true;
 			do_punch_damage = true;
 			runData.object_hit_delay_timer = object_hit_delay;
@@ -2783,8 +2784,9 @@ void Game::handlePointingAtObject(const PointedThing &pointed,
 					dir, &tool_item, runData.time_from_last_punch);
 			runData.time_from_last_punch = 0;
 
-			if (!disable_send)
+			if (!disable_send) {
 				client->interact(INTERACT_START_DIGGING, pointed);
+			}
 		}
 	} else if (wasKeyDown(KeyType::PLACE)) {
 		infostream << "Pressed place button while pointing at object" << std::endl;
@@ -3180,8 +3182,8 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 		Cheat menu
 	*/
 
-	if (! gui_chat_console->isOpen()) {
-		if (g_settings->getBool("cheat_menu"))
+	if (!gui_chat_console->isOpen()) {
+		if (m_game_ui->m_flags.show_cheat_menu)
 			cheat_menu->draw(driver, m_game_ui->m_flags.show_minimal_debug);
 		if (g_settings->getBool("cheat_hud"))
 			cheat_menu->drawHUD(driver, dtime);

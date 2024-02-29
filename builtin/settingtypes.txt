@@ -2017,6 +2017,16 @@ airjump (Airjump) bool false
 cheat_hud (Cheat HUD) bool true
 #   Not hurt
 no_hurt_cam (No hurt) bool false
+#   No fall damage
+no_damage (No Damage) bool false
+#   Fast Hit
+spamclick (Fast hit) bool false
+#   Auto Hit
+autohit (Auto hit) bool false
+#   HUD Flags bypass
+hud_flags_bypass (HUD Flags bypass) bool false
+#   Auto Dig
+autodig (Auto Dig) bool false
 
 enable_entity_tracers (EntityTracers) bool false
 

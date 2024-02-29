@@ -16,12 +16,18 @@ core.cheats = {
 		["EntityTracers"] = "enable_entity_tracers",
 		["PlayerESP"] = "enable_player_esp",
 		["PlayerTracers"] = "enable_player_tracers",
+		["NotHurtCam"] = "no_hurt_cam",
 	},
 	["Interact"] = {
 		["FastPlace"] = "fastplace",
-	},
+		["FastDig"] = "fastdig",
+		["AutoDig"] = "autodig",
+		["AutoHit"] = "autohit",
+		["FastHit"] = "spamclick",
+	},	
 	["Player"] = {
 		["PrivBypass"] = "priv_by_pass",
+		["NoFallDamage"] = "no_damage",
 	},
 }
 

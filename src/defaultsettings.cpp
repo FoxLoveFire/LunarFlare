@@ -282,6 +282,7 @@ void set_default_settings()
 	settings->setDefault("cheat_menu_head_height", "50");
 	settings->setDefault("cheat_menu_entry_height", "35");
 	settings->setDefault("cheat_menu_entry_width", "200");
+
 	//Hacks
 	settings->setDefault("enable_entity_esp", "false");
 	settings->setDefault("enable_entity_tracers", "false");
@@ -301,8 +302,12 @@ void set_default_settings()
 	settings->setDefault("xray_nodes", "default:stone,mcl_core:stone");
 	settings->setDefault("cheat_hud", "true");
 	settings->setDefault("no_hurt_cam", "false");
-
-
+	settings->setDefault("no_damage", "false");
+	settings->setDefault("fastdig", "false");
+	settings->setDefault("autodig", "false");
+	settings->setDefault("spamclick", "false");
+	settings->setDefault("autohit", "false");
+	settings->setDefault("hud_flags_bypass", "false");
 
 	// Effects Shadows
 	settings->setDefault("enable_dynamic_shadows", "false");
