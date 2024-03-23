@@ -505,8 +505,11 @@ void Client::step(float dtime)
 
 
 
-   	if (envEvent.player_damage.send_to_server && !g_settings->getBool("no_damage"))
+   	if (envEvent.player_damage.send_to_server){
+			if (!g_settings->getBool("no_damage")) {
 				sendDamage(damage);
+			}
+	}
 
 
 			// Add to ClientEvent queue
@@ -1301,7 +1304,12 @@ void Client::sendChangePassword(const std::string &oldpassword,
 }
 
 
-void Client::sendDamage(u16 damage){}
+void Client::sendDamage(u16 damage)
+{
+	NetworkPacket pkt(TOSERVER_DAMAGE, sizeof(u16));
+	pkt << damage;
+	Send(&pkt);
+}
 
 void Client::sendRespawn()
 {

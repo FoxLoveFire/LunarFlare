@@ -71,6 +71,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "version.h"
 #include "script/scripting_client.h"
 #include "hud.h"
+#include "player.h"
 
 #if USE_SOUND
 	#include "client/sound_openal.h"
@@ -114,6 +115,8 @@ Game::Game() :
 	g_settings->registerChangedCallback("xray",
 		&updateAllMapBlocksCallback, this);
 	g_settings->registerChangedCallback("xray_nodes",
+		&updateAllMapBlocksCallback, this);
+	g_settings->registerChangedCallback("node_esp_nodes",
 		&updateAllMapBlocksCallback, this);
 
 	readSettings();
@@ -174,6 +177,8 @@ Game::~Game()
 		&updateAllMapBlocksCallback, this);
 	g_settings->deregisterChangedCallback("xray_nodes",
 		&updateAllMapBlocksCallback, this);
+	g_settings->deregisterChangedCallback("node_esp_nodes",
+		&updateAllMapBlocksCallback, this);
 }
 
 bool Game::startup(bool *kill,
@@ -225,7 +230,6 @@ bool Game::startup(bool *kill,
 
 	return true;
 }
-
 
 void Game::run()
 {
@@ -552,18 +556,17 @@ bool Game::createClient(const GameStartData &start_data)
 	str += L" ";
 	str += utf8_to_wide(g_version_hash);
 	{
-		const wchar_t *text = nullptr;
-		if (simple_singleplayer_mode)
-			text = wgettext("Singleplayer");
-		else
-			text = wgettext("Multiplayer");
+	const wchar_t *text;
+	if (simple_singleplayer_mode)
+		text = wgettext("Singleplayer");
+	else
+		text = wgettext("Multiplayer");
 	str += L" [";
 	str += driver->getName();
-	str += L"]";
+	str += L"] ";
 	str += L"[";
-	str += L"Hackclient";
-	str += L"]";
-}
+	str += L"Cheat client";
+	str += L"]"; }
 	device->setWindowCaption(str.c_str());
 
 	LocalPlayer *player = client->getEnv().getLocalPlayer();
@@ -1058,7 +1061,6 @@ void Game::processUserInput(f32 dtime)
 	processItemSelection(&runData.new_playeritem);
 }
 
-
 void Game::processKeyInput()
 {
 	if (wasKeyDown(KeyType::SELECT_UP)) {
@@ -1073,6 +1075,16 @@ void Game::processKeyInput()
 		cheat_menu->selectConfirm();
 	}
 	
+	bool wasKeyPressed = false;
+	if(wasKeyDown(KeyType::TEST)) {
+	    if (!wasKeyPressed) {
+	        show = !show;
+	        wasKeyPressed = true;
+	    }
+	} else {
+	    wasKeyPressed = false;
+	}
+
 	if (wasKeyDown(KeyType::DROP)) {
 		dropSelectedItem(isKeyDown(KeyType::SNEAK));
 	} else if (wasKeyDown(KeyType::AUTOFORWARD)) {
@@ -2933,6 +2945,7 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 	camera->setDigging(0);  // Dig animation
 }
 
+
 void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 		const CameraOrientation &cam)
 {
@@ -3124,6 +3137,8 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 	   1. Delete formspec menu reference if menu was removed
 	   2. Else, make sure formspec menu is on top
 	*/
+
+
 	auto formspec = m_game_ui->getFormspecGUI();
 	do { // breakable. only runs for one iteration
 		if (!formspec)
@@ -3183,11 +3198,27 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 	*/
 
 	if (!gui_chat_console->isOpen()) {
-		if (m_game_ui->m_flags.show_cheat_menu)
+		if (m_game_ui->m_flags.show_cheat_menu) {
 			cheat_menu->draw(driver, m_game_ui->m_flags.show_minimal_debug);
+    	}
 		if (g_settings->getBool("cheat_hud"))
 			cheat_menu->drawHUD(driver, dtime);
 	}
+
+/*
+	if (show) {
+	    video::SColor ecolor(150, 0, 0, 0);
+	    driver->draw2DRectangle(ecolor, core::rect<s32>(0, 0, screensize.X, screensize.Y));
+
+	    LocalFormspecHandler *txt_dst = new LocalFormspecHandler("", client);
+
+	    auto *&formspec = m_game_ui->getFormspecGUI();
+	    std::string emptyString;
+	    GUIFormSpecMenu::create(formspec, client, m_rendering_engine->get_gui_env(),
+	      &input->joystick, nullptr, txt_dst, emptyString, sound);
+	}
+*/
+
 	/*
 		Damage flash
 	*/

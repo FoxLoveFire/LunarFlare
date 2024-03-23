@@ -806,7 +806,7 @@ static void getTileInfo(
 
 	content_t c0 = n0.getContent();
 	if (xray && xraySet.find(c0) != xraySet.end())
-		c0 = CONTENT_AIR;
+		c0 = 126;
 	// Don't even try to get n1 if n0 is already CONTENT_IGNORE
 	if (c0 == CONTENT_IGNORE) {
 		makes_face = false;
@@ -817,7 +817,7 @@ static void getTileInfo(
 
 	content_t c1 = n1.getContent();
 	if (xray && xraySet.find(c1) != xraySet.end())
-		c1 = CONTENT_AIR;
+		c1 = 126;
 
 	if (c1 == CONTENT_IGNORE) {
 		makes_face = false;
@@ -1251,7 +1251,7 @@ MapBlockMesh::MapBlockMesh(MeshMakeData *data, v3s16 camera_offset):
 	if (xray)
 		xraySet = splitToContentT(g_settings->get("xray_nodes"), data->m_client->ndef());
 
-
+	nodeESPSet = splitToContentT(g_settings->get("node_esp_nodes"), data->m_client->ndef());
 	/*
 		We are including the faces of the trailing edges of the block.
 		This means that when something changes, the caller must
@@ -1269,6 +1269,21 @@ MapBlockMesh::MapBlockMesh(MeshMakeData *data, v3s16 camera_offset):
 	/*
 		Convert FastFaces to MeshCollector
 	*/
+
+	{
+		v3s16 blockpos_nodes = data->m_blockpos * MAP_BLOCKSIZE;
+		for (s16 x = 0; x < MAP_BLOCKSIZE; x++) {
+			for (s16 y = 0; y < MAP_BLOCKSIZE; y++) {
+				for (s16 z = 0; z < MAP_BLOCKSIZE; z++) {
+					v3s16 pos = v3s16(x, y, z) + blockpos_nodes;
+					const MapNode &node = data->m_vmanip.getNodeRefUnsafeCheckFlags(pos);
+					if (nodeESPSet.find(node.getContent()) != nodeESPSet.end())
+						esp_nodes.insert(pos);
+				}
+			}
+		}
+	}
+
 
 	MeshCollector collector;
 

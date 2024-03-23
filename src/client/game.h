@@ -830,7 +830,6 @@ private:
 	void handleClientEvent_OverrideDayNigthRatio(ClientEvent *event,
 		CameraOrientation *cam);
 	void handleClientEvent_CloudParams(ClientEvent *event, CameraOrientation *cam);
-
 	void updateChat(f32 dtime);
 
 	bool nodePlacement(const ItemDefinition &selected_def, const ItemStack &selected_item,
@@ -892,6 +891,7 @@ private:
 	bool *reconnect_requested;
 	scene::ISceneNode *skybox;
 	PausedNodesList paused_animated_nodes;
+	bool show = false;
 
 	bool simple_singleplayer_mode;
 	/* End 'cache' */

@@ -22,6 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/fontengine.h"
 #include "cheatMenu.h"
 #include <cstddef>
+#include <irrlicht/irrlicht.h>
 
 FontMode Menu::fontStringToEnum(std::string str)
 {
@@ -84,28 +85,29 @@ Menu::Menu(Client *client) : m_client(client)
 void Menu::drawEntry(video::IVideoDriver *driver, std::string name, int number,
 		bool selected, bool active, CheatMenuEntryType entry_type)
 {
-	int x = m_gap, y = m_gap, width = m_entry_width, height = m_entry_height;
+	int m_currentX = m_gap, m_currentY = m_gap, width = m_entry_width, height = m_entry_height;
 	video::SColor *bgcolor = &m_bg_color, *fontcolor = &m_font_color;
 	if (entry_type == CHEAT_MENU_ENTRY_TYPE_HEAD) {
 		bgcolor = &m_active_bg_color;
 		height = m_head_height;
 	} else {
 		bool is_category = entry_type == CHEAT_MENU_ENTRY_TYPE_CATEGORY;
-		y += m_gap + m_head_height +
+		m_currentY += m_gap + m_head_height +
 		     (number + (is_category ? 0 : m_selected_category)) *
 				     (m_entry_height + m_gap);
-		x += (is_category ? 0 : m_gap + m_entry_width);
+		m_currentX += (is_category ? 0 : m_gap + m_entry_width);
 		if (active)
 			bgcolor = &m_active_bg_color;
 		if (selected)
 			fontcolor = &m_selected_font_color;
 	}
-	driver->draw2DRectangle(*bgcolor, core::rect<s32>(x, y, x + width, y + height));
+		driver->draw2DRectangle(*bgcolor, core::rect<s32>(m_currentX, m_currentY, m_currentX + width, m_currentY + height));
 	if (selected)
 		driver->draw2DRectangleOutline(
-				core::rect<s32>(x - 1, y - 1, x + width, y + height),
+				core::rect<s32>(m_currentX - 1, m_currentY - 1, m_currentX + width, m_currentY + height),
 				*fontcolor);
-	int fx = x + 5, fy = y + (height - m_fontsize.Y) / 2;
+
+	int fx = m_currentX + 5, fy = m_currentY + (height - m_fontsize.Y) / 2;
 	core::rect<s32> fontbounds(
 			fx, fy, fx + m_fontsize.X * name.size(), fy + m_fontsize.Y);
 	m_font->draw(name.c_str(), fontbounds, *fontcolor, false, false);

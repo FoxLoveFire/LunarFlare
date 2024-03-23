@@ -2044,6 +2044,10 @@ player_esp_color (PlayerESP Color) v3f 0, 255, 0
 xray (X-Ray) bool false
 #    Xray blocks 
 xray_nodes (X-Ray Nodes) string default:stone,mcl_core:stone 
+#    Nodes ESP
+enable_node_esp (NodeESP) bool false
+#    Nodes
+node_esp_nodes (NodeESP Nodes) string
 
 [Cheat Menu]
 

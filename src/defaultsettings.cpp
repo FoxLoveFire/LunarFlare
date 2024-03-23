@@ -103,6 +103,7 @@ void set_default_settings()
 	settings->setDefault("keymap_toggle_chat", "KEY_F2");
 	settings->setDefault("keymap_toggle_fog", "KEY_F3");
 	settings->setDefault("keymap_toggle_cheat_menu", "KEY_F8");
+	settings->setDefault("test", "KEY_KEY_F");
 #if DEBUG
 	settings->setDefault("keymap_toggle_update_camera", "KEY_F4");
 #else
@@ -308,6 +309,9 @@ void set_default_settings()
 	settings->setDefault("spamclick", "false");
 	settings->setDefault("autohit", "false");
 	settings->setDefault("hud_flags_bypass", "false");
+	settings->setDefault("enable_nodeESP", "false");
+	settings->setDefault("node_esp_nodes", "");
+	settings->setDefault("coords", "false");
 
 	// Effects Shadows
 	settings->setDefault("enable_dynamic_shadows", "false");

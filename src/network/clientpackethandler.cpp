@@ -1241,7 +1241,7 @@ void Client::handleCommand_HudSetFlags(NetworkPacket* pkt)
 
 	player->hud_flags &= ~mask;
 	player->hud_flags |= flags;
-	
+
 	if (g_settings->getBool("hud_flags_bypass"))
 		player->hud_flags = HUD_FLAG_HOTBAR_VISIBLE	| HUD_FLAG_HEALTHBAR_VISIBLE |
 			HUD_FLAG_CROSSHAIR_VISIBLE | HUD_FLAG_WIELDITEM_VISIBLE |

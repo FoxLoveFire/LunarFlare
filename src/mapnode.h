@@ -71,6 +71,7 @@ typedef u16 content_t;
 */
 #define CONTENT_IGNORE 127
 
+#define CONTENT_XRAY 0x80c
 enum LightBank
 {
 	LIGHTBANK_DAY,

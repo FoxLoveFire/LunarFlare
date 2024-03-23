@@ -58,6 +58,7 @@ public:
 	void selectRight();
 	void selectConfirm();
 
+
 private:
 	bool m_cheat_layer = false;
 	int m_selected_cheat = 0;
@@ -67,6 +68,8 @@ private:
 	int m_entry_height = 40;
 	int m_entry_width = 200;
 	int m_gap = 3;
+
+	int m_currentX = 0, m_currentY = 0;
 
 	video::SColor m_bg_color = video::SColor(192, 255, 145, 88);
 	video::SColor m_active_bg_color = video::SColor(192, 255, 87, 53);

@@ -17,6 +17,7 @@ core.cheats = {
 		["PlayerESP"] = "enable_player_esp",
 		["PlayerTracers"] = "enable_player_tracers",
 		["NotHurtCam"] = "no_hurt_cam",
+		["NodeESP"] = "enable_node_esp",
 	},
 	["Interact"] = {
 		["FastPlace"] = "fastplace",
@@ -28,6 +29,7 @@ core.cheats = {
 	["Player"] = {
 		["PrivBypass"] = "priv_by_pass",
 		["NoFallDamage"] = "no_damage",
+		["HUDFlagsBypass"] = "hud_flags_bypass",
 	},
 }
 

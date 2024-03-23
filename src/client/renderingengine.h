@@ -127,12 +127,10 @@ public:
 		return nullptr;
 	}
 	static std::vector<irr::video::E_DRIVER_TYPE> getSupportedVideoDrivers();
-
 private:
 	v2u32 _getWindowSize() const;
-
-	std::unique_ptr<RenderingCore> core;
 	irr::IrrlichtDevice *m_device = nullptr;
+	std::unique_ptr<RenderingCore> core;
 	irr::video::IVideoDriver *driver;
 	static RenderingEngine *s_singleton;
 };

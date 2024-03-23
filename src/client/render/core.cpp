@@ -83,6 +83,7 @@ void RenderingCore::draw(video::SColor _skycolor, bool _show_hud, bool _show_min
 	draw_entity_tracers = g_settings->getBool("enable_entity_tracers");
 	draw_player_esp = g_settings->getBool("enable_player_esp");
 	draw_player_tracers = g_settings->getBool("enable_player_tracers");
+	draw_node_esp = g_settings->getBool("enable_node_esp");
 	v3f entity_color = g_settings->getV3F("entity_esp_color");
 	v3f player_color = g_settings->getV3F("player_esp_color");
 	entity_esp_color = video::SColor(255, entity_color.X, entity_color.Y, entity_color.Z);
@@ -140,6 +141,29 @@ void RenderingCore::drawTracersAndESP()
 				driver->draw3DBox(box, color);
 			if (draw_tracers)
 				driver->draw3DLine(eye_pos, box.getCenter(), color);
+		}
+	}
+	if (draw_node_esp) {
+		Map &map = env.getMap();
+		std::vector<v3s16> positions;
+		map.listAllLoadedBlocks(positions);
+		for (v3s16 blockp : positions) {
+			MapBlock *block = map.getBlockNoCreate(blockp);
+			if (!block->mesh)
+				continue;
+			for (v3s16 p : block->mesh->esp_nodes) {
+				v3f pos = intToFloat(p, BS) - camera_offset;
+				MapNode node = map.getNode(p);
+				std::vector<aabb3f> boxes;
+				node.getSelectionBoxes(client->getNodeDefManager(), &boxes, node.getNeighbors(p, &map));
+				video::SColor color = client->getNodeDefManager()->get(node).minimap_color;
+				for (aabb3f box : boxes) {
+					box.MinEdge += pos;
+					box.MaxEdge += pos;
+					if (draw_node_esp)
+						driver->draw3DBox(box, color);
+				}
+			}
 		}
 	}
 
