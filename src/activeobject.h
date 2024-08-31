@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <string>
 
 
+
 enum ActiveObjectType {
 	ACTIVEOBJECT_TYPE_INVALID = 0,
 	ACTIVEOBJECT_TYPE_TEST = 1,
