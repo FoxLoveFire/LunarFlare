@@ -22,7 +22,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/fontengine.h"
 #include "cheatMenu.h"
 #include <cstddef>
-//#include <irrlicht/irrlicht.h>
 
 FontMode Menu::fontStringToEnum(std::string str)
 {
