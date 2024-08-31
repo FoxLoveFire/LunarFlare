@@ -309,7 +309,7 @@ void set_default_settings()
 	settings->setDefault("spamclick", "false");
 	settings->setDefault("autohit", "false");
 	settings->setDefault("hud_flags_bypass", "false");
-	settings->setDefault("enable_nodeESP", "false");
+	settings->setDefault("enable_node_esp", "false");
 	settings->setDefault("node_esp_nodes", "");
 	settings->setDefault("coords", "false");
 
